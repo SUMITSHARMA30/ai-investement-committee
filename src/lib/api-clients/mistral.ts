@@ -1,7 +1,9 @@
 import { ChatMistralAI } from "@langchain/mistralai";
 import { z } from "zod";
+import { loadEnvFallback } from "./envLoader";
 
 export function getMistralModel(modelName: string = "mistral-small-latest") {
+  loadEnvFallback();
   return new ChatMistralAI({
     apiKey: process.env.MISTRAL_API_KEY,
     model: modelName,

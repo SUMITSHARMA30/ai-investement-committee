@@ -238,7 +238,8 @@ export default function Home() {
       });
 
       if (!resolveRes.ok) {
-        throw new Error("Could not resolve company name. Please verify the spelling or try inputting a direct ticker symbol.");
+        const errData = await resolveRes.json().catch(() => ({}));
+        throw new Error(errData.error || errData.details || "Could not resolve company name. Please verify the spelling or try inputting a direct ticker symbol.");
       }
 
       const { ticker, name } = await resolveRes.json();

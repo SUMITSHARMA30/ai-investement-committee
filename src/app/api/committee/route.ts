@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { runCommittee } from "@/lib/agents/orchestrator";
+import { loadEnvFallback } from "@/lib/api-clients/envLoader";
 
 export async function POST(req: NextRequest) {
   try {
+    loadEnvFallback();
     const { ticker } = await req.json();
     if (!ticker) {
       return NextResponse.json({ error: "ticker is required" }, { status: 400 });

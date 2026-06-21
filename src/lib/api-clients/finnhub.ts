@@ -1,16 +1,23 @@
-const API_KEY = process.env.FINNHUB_API_KEY;
+import { loadEnvFallback } from "./envLoader";
+
+function getApiKey() {
+  loadEnvFallback();
+  return process.env.FINNHUB_API_KEY;
+}
 
 export async function getCompanyProfile(ticker: string) {
+  const token = getApiKey();
   const res = await fetch(
-    `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${API_KEY}`
+    `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${token}`
   );
 
   return res.json();
 }
 
 export async function getBasicFinancials(ticker: string) {
+  const token = getApiKey();
   const res = await fetch(
-    `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${API_KEY}`
+    `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${token}`
   );
 
   return res.json();
@@ -22,20 +29,22 @@ export async function getCompanyNews(ticker: string) {
 
   from.setDate(today.getDate() - 30);
 
+  const token = getApiKey();
   const res = await fetch(
     `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${from
       .toISOString()
       .split("T")[0]}&to=${today
       .toISOString()
-      .split("T")[0]}&token=${API_KEY}`
+      .split("T")[0]}&token=${token}`
   );
 
   return res.json();
 }
 
 export async function searchSymbols(query: string) {
+  const token = getApiKey();
   const res = await fetch(
-    `https://finnhub.io/api/v1/search?q=${encodeURIComponent(query)}&token=${API_KEY}`
+    `https://finnhub.io/api/v1/search?q=${encodeURIComponent(query)}&token=${token}`
   );
 
   return res.json();
