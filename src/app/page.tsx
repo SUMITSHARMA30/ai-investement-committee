@@ -459,10 +459,10 @@ export default function Home() {
             filteredSessions.map((s) => {
               const isActive = s.id === activeSessionId;
               return (
-                <button
+                <div
                   key={s.id}
                   onClick={() => setActiveSessionId(s.id)}
-                  className={`w-full group flex items-center justify-between p-2.5 rounded-xl text-left text-xs transition-all relative ${
+                  className={`w-full group flex items-center justify-between p-2.5 rounded-xl text-left text-xs transition-all cursor-pointer relative ${
                     isActive
                       ? "bg-white/10 text-white font-medium border-l-2 border-[var(--color-accent)]"
                       : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
@@ -478,7 +478,7 @@ export default function Home() {
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
-                </button>
+                </div>
               );
             })
           )}
