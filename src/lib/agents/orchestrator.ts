@@ -8,6 +8,7 @@ import { runRiskOfficer } from "./riskOfficer";
 import { runPortfolioManager } from "./portfolioManager";
 import type { AgentReport } from "@/lib/types/agent";
 import type { PortfolioManagerDecision } from "@/lib/types/decision";
+import { resolveTicker } from "@/lib/api-clients/finnhub";
 
 const CommitteeState = Annotation.Root({
   rawInput: Annotation<string>,
@@ -23,9 +24,7 @@ const CommitteeState = Annotation.Root({
 
 type CommitteeStateType = typeof CommitteeState.State;
 
-async function resolveTicker(input: string): Promise<string> {
-  return input.toUpperCase();
-}
+
 
 async function resolveTickerNode(state: CommitteeStateType) {
   const ticker = await resolveTicker(state.rawInput);

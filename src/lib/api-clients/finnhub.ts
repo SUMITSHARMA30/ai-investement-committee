@@ -40,3 +40,44 @@ export async function searchSymbols(query: string) {
 
   return res.json();
 }
+export async function resolveTicker(input: string): Promise<string> {
+  const text = input.trim().toLowerCase();
+
+  const companyMap: Record<string, string> = {
+    tesla: "TSLA",
+    microsoft: "MSFT",
+    apple: "AAPL",
+    amazon: "AMZN",
+    google: "GOOGL",
+    alphabet: "GOOGL",
+    nvidia: "NVDA",
+    meta: "META",
+    netflix: "NFLX",
+    amd: "AMD",
+    intel: "INTC",
+    oracle: "ORCL",
+    salesforce: "CRM",
+    adobe: "ADBE",
+    cisco: "CSCO",
+  };
+
+  for (const [company, ticker] of Object.entries(companyMap)) {
+    if (text.includes(company)) {
+      return ticker;
+    }
+  }
+
+  if (/^[A-Z]{1,5}$/i.test(input.trim())) {
+    return input.trim().toUpperCase();
+  }
+
+  const search = await searchSymbols(input);
+
+  if (search.result?.length) {
+    return search.result[0].symbol;
+  }
+
+  throw new Error(
+    "Could not resolve company name. Please verify the spelling or try inputting a direct ticker symbol."
+  );
+}
