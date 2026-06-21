@@ -32,3 +32,11 @@ export async function getCompanyNews(ticker: string) {
 
   return res.json();
 }
+
+export async function searchSymbols(query: string) {
+  const res = await fetch(
+    `https://finnhub.io/api/v1/search?q=${encodeURIComponent(query)}&token=${API_KEY}`
+  );
+
+  return res.json();
+}
